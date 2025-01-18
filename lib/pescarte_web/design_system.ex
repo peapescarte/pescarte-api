@@ -635,6 +635,29 @@ defmodule PescarteWeb.DesignSystem do
   end
 
   @doc """
+  Renders image from Supabase
+  """
+  attr :src, :string, required: true, doc: "the image source"
+  attr :alt, :string, required: false, default: "", doc: "the image alt"
+  attr :class, :string, default: "", doc: "the image class"
+
+  def supabase_image(assigns) do
+    IO.inspect(assigns.src)
+    assigns =
+      with {:ok, client} <- Pescarte.Supabase.get_client(),
+           {:ok, bucket} <- Supabase.Storage.BucketHandler.retrieve_info(client, "static"),
+           {:ok, url} <- Supabase.Storage.create_signed_url(client, bucket, assigns.src, 3600) do
+        modified_url = String.replace(url, "/object/", "/storage/v1/object/")
+
+        Map.put(assigns, :src, modified_url)
+      end
+
+    ~H"""
+    <img src={@src} alt={@alt} class={@class} />
+    """
+  end
+
+  @doc """
   Renders flash notices.
   ## Examples
       <.flash kind={:info} flash={@flash} />
