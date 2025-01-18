@@ -21,7 +21,7 @@ defmodule Pescarte.Identidades.Models.Usuario do
           external_customer_id: String.t()
         }
 
-  @valid_roles ~w(pesquisador pescador admin)a
+  @valid_roles ~w(celetista pesquisador pescador admin)a
 
   @required_fields ~w(primeiro_nome sobrenome cpf data_nascimento papel)a
   @optional_fields ~w(rg link_avatar contato_id external_customer_id)a
