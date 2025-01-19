@@ -47,11 +47,6 @@ defmodule Pescarte.Blog.Post do
     |> foreign_key_constraint(:usuario_id)
   end
 
-  @spec get_posts :: list(Post.t()) | Ecto.QueryError
-  def get_posts do
-    Repo.Replica.all(Post)
-  end
-
   @spec get_post(String.t()) :: {:ok, Post.t()} | {:error, :not_found}
   def get_post(id) do
     Database.fetch(Post, id)

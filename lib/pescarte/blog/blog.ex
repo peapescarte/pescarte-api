@@ -3,6 +3,7 @@ defmodule Pescarte.Blog do
   O contexto Blog é responsável por gerenciar as operações relacionadas a postagens e tags.
   """
   import Ecto.Query
+  alias Pescarte.Blog.Entity.Tag
   alias Pescarte.Blog.Post
   alias Pescarte.Database.Repo
 
@@ -15,7 +16,7 @@ defmodule Pescarte.Blog do
           optional(:page_size) => pos_integer()
         }
 
-  @spec list_posts_with_filter(filters()) :: {:ok, list(Post.t())} | {:error, term()}
+  @spec list_posts_with_filter(filters()) ::  list(Post.t()) | {:error, term()}
   def list_posts_with_filter(filters \\ %{}) do
     Post
     |> apply_post_search_filter(filters)
@@ -57,5 +58,5 @@ defmodule Pescarte.Blog do
     from p in query, limit: ^page_size, offset: ^offset
   end
 
-  defp apply_pagination(query, _), do: from(p in query, limit: 10, offset: 0)
+  defp apply_pagination(query, _), do: from(p in query, limit: 7, offset: 0)
 end
